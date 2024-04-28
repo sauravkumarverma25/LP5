@@ -142,3 +142,18 @@ int main()
 //         }
 //     }
 // }
+//output:---
+/*Enter the number of vertices: 4
+Enter the number of edges: 4
+Enter the edges in (source destination) format:
+0 1
+0 2
+1 3
+2 3
+Enter the starting vertex: 0
+BFS traversal is: 0 1 2 3
+Time taken for BFS traversal: 0 microseconds
+Speedup BFS: 1
+DFS traversal is: 0 2 3 1
+Time taken for DFS traversal: 0 microseconds
+Speedup DFS: 1*/
