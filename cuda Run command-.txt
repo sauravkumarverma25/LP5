@@ -10,3 +10,7 @@ run:-
 or,
 nvcc -0 filename filename.cu
 ./filename
+
+      or,
+nvcc vecAdd.cu -o vecadd.out
+./vecadd.out
