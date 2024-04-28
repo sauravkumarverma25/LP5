@@ -1,0 +1,8 @@
+cuda Run command:-
+1. nvcc filename.cu
+2. ./a.out
+
+or,
+1.nvcc -o a.outexample.cu
+run:-
+./a.out
