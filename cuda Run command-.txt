@@ -6,3 +6,7 @@ or,
 1.nvcc -o a.outexample.cu
 run:-
 ./a.out
+
+or,
+nvcc -0 filename filename.cu
+./filename
