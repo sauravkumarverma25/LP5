@@ -1,5 +1,7 @@
-import time
+import numpy as np
 import random
+import time
+import threading
 
 def bubble(array):
     n = len(array)
@@ -11,12 +13,11 @@ def bubble(array):
 def pBubble(array):
     n = len(array)
     for i in range(n):
-        for j in range(1, n, 2):
+        for j in range((i % 2) + 1, n, 2):
             if array[j] < array[j - 1]:
                 array[j], array[j - 1] = array[j - 1], array[j]
 
-        # Synchronize
-        # No need for barrier in Python as the GIL (Global Interpreter Lock) ensures only one thread executes Python code at a time
+        # No need for barrier in Python
 
         for j in range(2, n, 2):
             if array[j] < array[j - 1]:
@@ -55,8 +56,14 @@ def parallelMergeSort(arr, low, high):
     if low < high:
         mid = (low + high) // 2
 
-        parallelMergeSort(arr, low, mid)
-        parallelMergeSort(arr, mid + 1, high)
+        t1 = threading.Thread(target=parallelMergeSort, args=(arr, low, mid))
+        t2 = threading.Thread(target=parallelMergeSort, args=(arr, mid + 1, high))
+
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
 
         merge(arr, low, mid, high)
 
@@ -126,6 +133,7 @@ if __name__ == "__main__":
 
 '''
 import time
+import threading
 
 def bubble(array):
     n = len(array)
@@ -137,12 +145,9 @@ def bubble(array):
 def pBubble(array):
     n = len(array)
     for i in range(n):
-        for j in range(1, n, 2):
+        for j in range((i % 2) + 1, n, 2):
             if array[j] < array[j - 1]:
                 array[j], array[j - 1] = array[j - 1], array[j]
-
-        # Synchronize
-        # No need for barrier in Python as the GIL (Global Interpreter Lock) ensures only one thread executes Python code at a time
 
         for j in range(2, n, 2):
             if array[j] < array[j - 1]:
@@ -181,8 +186,14 @@ def parallelMergeSort(arr, low, high):
     if low < high:
         mid = (low + high) // 2
 
-        parallelMergeSort(arr, low, mid)
-        parallelMergeSort(arr, mid + 1, high)
+        t1 = threading.Thread(target=parallelMergeSort, args=(arr, low, mid))
+        t2 = threading.Thread(target=parallelMergeSort, args=(arr, mid + 1, high))
+
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
 
         merge(arr, low, mid, high)
 
@@ -220,13 +231,12 @@ if __name__ == "__main__":
     n = int(input("Enter the size of the array: "))
     arr = []
 
-    print("Enter the elements of the array:")
-    for i in range(n):
-        element = int(input())
-        arr.append(element)
+    print("Enter", n, "integers:")
+    for _ in range(n):
+        arr.append(int(input()))
 
     start_time = time.time()
-    bubble(arr)
+    bubble(arr.copy())
     end_time = time.time()
     print("Sequential Bubble Sort took:", end_time - start_time, "seconds.")
     print("Sorted Array (Bubble Sort):", arr)
@@ -254,4 +264,5 @@ if __name__ == "__main__":
     end_time = time.time()
     print("Parallel Merge Sort took:", end_time - start_time, "seconds.")
     print("Sorted Array (Parallel Merge Sort):", arr_copy)
+
 '''
